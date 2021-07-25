@@ -1,0 +1,62 @@
+﻿<Window x:Class="NotebookShelf.CategoryDialog.CategoryAddDialog"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NotebookShelf.CategoryDialog"
+      mc:Ignorable="d" 
+      MaxHeight="250" MaxWidth="350"
+      ResizeMode="NoResize"
+      WindowStartupLocation="CenterOwner"
+      d:DesignHeight="50" d:DesignWidth="50"
+      Title="New Category">
+
+    <Window.Resources>
+        <ControlTemplate x:Key="CategoryValidationTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="Red" FontSize="20" Text="*" />
+                <AdornedElementPlaceholder />
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style x:Key="ErrorStyle">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="TextBox.BorderBrush" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="BlanchedAlmond">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Content="Category Name:" />
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Margin="10, 0, 10, 0" Width="Auto" Height="40"
+                 Background="Transparent"
+                 VerticalAlignment="Center" VerticalContentAlignment="Center"
+                 Validation.ErrorTemplate="{StaticResource CategoryValidationTemplate}"
+                 Style="{StaticResource ErrorStyle}"
+                 Text="{Binding CategoryName, UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnDataErrors=True, NotifyOnValidationError=True,
+                                ValidatesOnExceptions=True}"
+                 ToolTip="{Binding Error}"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Foreground="Red"
+                   Margin="10, 70, 0, 0"
+                   VerticalAlignment="Center"
+                   Text="{Binding Error, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                Margin="0, 0, 20, 20"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Height="30" Width="80" Click="OnClick">
+            Done
+        </Button>
+    </Grid>
+</Window>

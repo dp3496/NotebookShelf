@@ -1,0 +1,106 @@
+﻿<Page x:Class="NotebookShelf.NotebookShelfPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="NotebookShelf">
+
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="25" />
+            <Setter Property="Margin" Value="0, 0, 15, 0" />
+        </Style>
+
+        <Style TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="25" />
+            <Setter Property="Margin" Value="0, 0, 15, 0" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Canvas Grid.Row="0" Grid.Column="0">
+            <Canvas.Background>
+                <ImageBrush ImageSource="Resources/nav-wooddark@2x.png" />
+            </Canvas.Background>
+        </Canvas>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="NOTESHELF" FontSize="18" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel x:Name="NotebookOptions" Orientation="Horizontal" HorizontalAlignment="Right">
+                <ToggleButton x:Name="ShowHideToggle">
+                    <ToggleButton.ContentTemplate>
+                        <DataTemplate>
+                            <Image Source="Resources/expand-menu.png" />
+                        </DataTemplate>
+                    </ToggleButton.ContentTemplate>
+                </ToggleButton>
+                <Button Height="30" Width="25"
+                        Content="Add Notebook" Command="{Binding AddNotebookCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <Image Source="Resources/nav-newnotebook.png" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </StackPanel>
+            <Popup x:Name="ExpandMenu" IsOpen="{Binding IsChecked, ElementName=ShowHideToggle}" PlacementTarget="{Binding ElementName=NotebookOptions}"
+                   Placement="Bottom">
+                <Grid Background="BlanchedAlmond">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Category:" />
+                    <ComboBox Grid.Row="1" Height="32"
+                              ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory}"
+                              DisplayMemberPath="Name" />
+                    <Button Grid.Row="2" FontSize="15" Content="Add Category"
+                            Width="Auto"
+                            Command="{Binding AddCategoryCommand}"/>
+                </Grid>
+            </Popup>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Margin="0, -10, 0, 0" VerticalScrollBarVisibility="Auto">
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ItemsSource="{Binding SelectedCategory.Notebooks}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Background="BurlyWood" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="10, 20, 20, 20">
+                            <Image Height="200" Width="200" Source="{Binding CoverPath}" />
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="{Binding Name}" />
+                            <TextBlock HorizontalAlignment="Center" Margin="0, 225, 0, 0" Text="{Binding DateTime, StringFormat={}{0:d}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</Page>
