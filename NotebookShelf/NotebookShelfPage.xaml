@@ -2,7 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="NotebookShelf">
@@ -81,11 +81,6 @@
         <ScrollViewer Grid.Row="1" Margin="0, -10, 0, 0" VerticalScrollBarVisibility="Auto">
             <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding SelectedCategory.Notebooks}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True" Background="BurlyWood" />
@@ -93,11 +88,13 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="10, 20, 20, 20">
-                            <Image Height="200" Width="200" Source="{Binding CoverPath}" />
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="{Binding Name}" />
-                            <TextBlock HorizontalAlignment="Center" Margin="0, 225, 0, 0" Text="{Binding DateTime, StringFormat={}{0:d}}" />
-                        </Grid>
+                        <Border>
+                            <Grid Margin="10, 20, 20, 20">
+                                <Image Height="200" Width="200" Source="{Binding CoverPath}" />
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Text="{Binding Name}" />
+                                <TextBlock HorizontalAlignment="Center" Margin="0, 225, 0, 0" Text="{Binding DateTime, StringFormat={}{0:d}}" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
